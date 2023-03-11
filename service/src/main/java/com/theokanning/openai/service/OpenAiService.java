@@ -88,7 +88,7 @@ public class OpenAiService {
     public CompletionResult createCompletion(CompletionRequest request) {
         return execute(api.createCompletion(request));
     }
-    
+
     public ChatCompletionResult createChatCompletion(ChatCompletionRequest request) {
         return execute(api.createChatCompletion(request));
     }
@@ -260,6 +260,25 @@ public class OpenAiService {
     public static Retrofit defaultRetrofit(OkHttpClient client, ObjectMapper mapper) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+    }
+
+    /**
+     * 自定义网络请求url，用于云函数方式请求
+     * @param definedUrl
+     * @param client
+     * @param mapper
+     * @return
+     */
+    public static Retrofit defaultRetrofit(String definedUrl,OkHttpClient client, ObjectMapper mapper) {
+        if(definedUrl == null || definedUrl.isEmpty()) {
+            definedUrl = BASE_URL;
+        }
+        return new Retrofit.Builder()
+                .baseUrl(definedUrl)
                 .client(client)
                 .addConverterFactory(JacksonConverterFactory.create(mapper))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

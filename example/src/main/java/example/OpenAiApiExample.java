@@ -1,6 +1,6 @@
 package example;
 
-import com.theokanning.openai.service.OpenAiService;
+import com.theokanning.openai.OpenAiService;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.image.CreateImageRequest;
 
